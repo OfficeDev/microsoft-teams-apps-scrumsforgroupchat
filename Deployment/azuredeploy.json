@@ -93,7 +93,7 @@
       "metadata": {
         "description": "The URL to the GitHub repository to deploy."
       },
-      "defaultValue": ""
+      "defaultValue": "https://github.com/OfficeDev/microsoft-teams-app-scrumstatus.git"
     },
     "gitBranch": {
       "type": "string",
