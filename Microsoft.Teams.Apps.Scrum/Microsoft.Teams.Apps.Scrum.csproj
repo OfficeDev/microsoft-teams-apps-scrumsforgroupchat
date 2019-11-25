@@ -1,0 +1,106 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Content\**" />
+    <Compile Remove="Deployment\**" />
+    <Compile Remove="Views\**" />
+    <Compile Remove="wwwroot\Content\CSS\**" />
+    <Content Remove="Content\**" />
+    <Content Remove="Deployment\**" />
+    <Content Remove="Views\**" />
+    <Content Remove="wwwroot\Content\CSS\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <EmbeddedResource Remove="Deployment\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <EmbeddedResource Remove="wwwroot\Content\CSS\**" />
+    <None Remove="Content\**" />
+    <None Remove="Deployment\**" />
+    <None Remove="Views\**" />
+    <None Remove="wwwroot\Content\CSS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ApplicationSettings.cs" />
+    <Compile Remove="Bots\ScrumCard.cs" />
+    <Compile Remove="Cards\RunningScrumCard.cs" />
+    <Compile Remove="Cards\ScrumCardValidation.cs" />
+    <Compile Remove="Cards\WelcomeTextForTourcards.cs" />
+    <Compile Remove="Common\BotSdkTransientExceptionDetectionStrategy.cs" />
+    <Compile Remove="Controllers\HomeController.cs" />
+    <Compile Remove="Models\AdaptiveCardAction.cs" />
+    <Compile Remove="Models\ConversationData.cs" />
+    <Compile Remove="Models\Msteams.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Cards\nameCard.json" />
+    <Content Remove="Cards\scrumCard.json" />
+    <Content Remove="Cards\scrumCardValidation.json" />
+    <Content Remove="Cards\scrumCompleteCard.json" />
+    <Content Remove="Cards\scrumStartCard.json" />
+    <Content Remove="Cards\scrumValidationCard.json" />
+    <Content Remove="Cards\updateCard.json" />
+    <Content Remove="Scrum.deps.json" />
+    <Content Remove="Scrum.runtimeconfig.json" />
+    <Content Remove="stylecop.json" />
+    <Content Remove="wwwroot\Content\Askaquestion.png" />
+    <Content Remove="wwwroot\Content\Notifications.png" />
+    <Content Remove="wwwroot\default.htm" />
+    <Content Remove="wwwroot\default.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\ScrumResource.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.3" />
+    <PackageReference Include="Microsoft.Bot.Connector.Teams" Version="0.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Microsoft.Teams.Apps.Scrum.sln" />
+  </ItemGroup>
+
+  <Import Project="PostDeployScripts\IncludeSources.targets" Condition="Exists('PostDeployScripts\IncludeSources.targets')" />
+  <Import Project="..\PostDeployScripts\IncludeSources.targets" Condition="Exists('..\PostDeployScripts\IncludeSources.targets')" />
+
+</Project>

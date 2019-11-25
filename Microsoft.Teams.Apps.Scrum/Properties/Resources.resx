@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BlockersText" xml:space="preserve">
+    <value>Any blockers?</value>
+    <comment>Field name on task module</comment>
+  </data>
+  <data name="CompleteScrumErrorText" xml:space="preserve">
+    <value>I'm not running a scrum right now. Use this command to end an active scrum.</value>
+    <comment>User hits complete scum,when no scrum is active</comment>
+  </data>
+  <data name="CompleteScrumText" xml:space="preserve">
+    <value>end scrum</value>
+    <comment>Complete scrum command</comment>
+  </data>
+  <data name="CompleteScrumTitle" xml:space="preserve">
+    <value>End scrum</value>
+    <comment>Text to show on complete scrum button</comment>
+  </data>
+  <data name="CompleteScrumTourText" xml:space="preserve">
+    <value>One scrum runs at a time. When you’re done, select End scrum at the bottom of the form. Once you end a scrum, no one can make any more updates to that scrum. Just start a new scrum when you’re ready to get status updates again.</value>
+    <comment>text to show on complete scrum carousel card</comment>
+  </data>
+  <data name="MemberCountErrorMessage" xml:space="preserve">
+    <value>I can only be used in group chat with no more than 20 members.</value>
+    <comment>Message to show when total member in group is more than 20.</comment>
+  </data>
+  <data name="NoActiveScrumTitle" xml:space="preserve">
+    <value>No Active Scrum</value>
+    <comment>Text to show on task module when no active scrum</comment>
+  </data>
+  <data name="NotPartofScrumText" xml:space="preserve">
+    <value>{0} You are not a part of the running scrum. You’ll be able to initiate a new scrum once the active scrum is completed.</value>
+    <comment>When new member added to running scrum</comment>
+  </data>
+  <data name="RunningScrumMessage" xml:space="preserve">
+    <value>I can only run one scrum at a time. End the current scrum first, then start a new one.</value>
+    <comment>Message to show when scrum is already running</comment>
+  </data>
+  <data name="ScopeErrorMessage" xml:space="preserve">
+    <value>I am currently designed to work only in Group chats. Please install me in a group chat to start tracking your scrum updates.</value>
+    <comment>Show message if installed in personal or team scope</comment>
+  </data>
+  <data name="ScrumCompletedByText" xml:space="preserve">
+    <value>Scrum completed by {0}, {1}</value>
+    <comment>Text on show on trail card</comment>
+  </data>
+  <data name="ScrumCompleteText" xml:space="preserve">
+    <value>Nice Work! This scrum is complete.</value>
+    <comment>Text to show when scrum is complete.</comment>
+  </data>
+  <data name="ScrumHelpMessage" xml:space="preserve">
+    <value>I can only support below commands.</value>
+  </data>
+  <data name="ScrumRequestedByText" xml:space="preserve">
+    <value> Scrum started by {0}, {1}</value>
+    <comment>Text on show on trail card</comment>
+  </data>
+  <data name="ScrumTaskModuleTitle" xml:space="preserve">
+    <value>Update scrum</value>
+    <comment>text to show as title in task module</comment>
+  </data>
+  <data name="ScrumUpdatedByText" xml:space="preserve">
+    <value>Scrum updated by {0}, {1}</value>
+    <comment>Text on show on trail card</comment>
+  </data>
+  <data name="ShowScrumDetailsTitle" xml:space="preserve">
+    <value>Status details</value>
+    <comment>Text to show on show scrum details button</comment>
+  </data>
+  <data name="StartCarouselCardTitle" xml:space="preserve">
+    <value>Start scrum</value>
+    <comment>Text to show on start command carousel card.</comment>
+  </data>
+  <data name="StartCommandTourTextPart1" xml:space="preserve">
+    <value> 
+When you ask me to start a scrum, I’ll create a form where people can enter their current status. Everyone can look at these updates.
+   </value>
+    <comment>text to show on start command carousel card</comment>
+  </data>
+  <data name="StartCommandTourTextPart2" xml:space="preserve">
+    <value>Want to start a scrum now?</value>
+    <comment>text to show on start command carousel card</comment>
+  </data>
+  <data name="StartText" xml:space="preserve">
+    <value>Start scrum</value>
+    <comment>Text for start command &amp; title</comment>
+  </data>
+  <data name="SubmitTitle" xml:space="preserve">
+    <value>Done</value>
+    <comment>Text to show on submit button</comment>
+  </data>
+  <data name="TakeATourButtonText" xml:space="preserve">
+    <value>Take a tour</value>
+    <comment>Text to shown on take a tour button</comment>
+  </data>
+  <data name="TodayText" xml:space="preserve">
+    <value>What will you do today? *(required)*</value>
+    <comment>Field name on task moduel</comment>
+  </data>
+  <data name="UpdateScrumTitle" xml:space="preserve">
+    <value>Update status</value>
+    <comment>Text to show on update scrum button</comment>
+  </data>
+  <data name="TodayValidationText" xml:space="preserve">
+    <value>This field can't be empty.</value>
+    <comment>Text to show when field is empty</comment>
+  </data>
+  <data name="WelcomeCardContentPart1" xml:space="preserve">
+    <value>
+I help you get status updates from your team. Everyone in the group chat can participate.</value>
+    <comment>Welcome message when bot is added to a new team.</comment>
+  </data>
+  <data name="WelcomeCardContentPart2" xml:space="preserve">
+    <value>Want to know more? Take a tour!</value>
+    <comment>Welcome message when bot is added to a new team.</comment>
+  </data>
+  <data name="YesterdayText" xml:space="preserve">
+    <value>What did you do yesterday?*(required)*</value>
+    <comment>Field name on task module</comment>
+  </data>
+  <data name="NoPartOfCompleteScrumText" xml:space="preserve">
+    <value>{0} You are not a part of the running scrum. Only active members of the scrum can mark it as completed.</value>
+    <comment>Text to show when a user is added during a running scrum and tries to complete the running scrum.</comment>
+  </data>
+  <data name="NoPartOfScrumStartText" xml:space="preserve">
+    <value>{0} You're not in the scrum that's currently running. Once that scrum has ended, you can start a new one.</value>
+    <comment>A user is added during a running scrum and tries to start a new scrum</comment>
+  </data>
+  <data name="NoPartOfScrumUpdateText" xml:space="preserve">
+    <value> You are not a part of the running scrum. You’ll be able to enter your updates next scrum onwards.</value>
+    <comment>A user is added during a running scrum and tries to update his/her details</comment>
+  </data>
+  <data name="YesterdayValidationText" xml:space="preserve">
+    <value>This field can't be empty.</value>
+    <comment>Text to show when field is empty</comment>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Something went wrong. Please try again later.</value>
+    <comment>Error message to show to user when error.</comment>
+  </data>
+  <data name="PlaceholderText" xml:space="preserve">
+    <value>Enter info (1000 characters max)</value>
+    <comment>Placeholder text on task module</comment>
+  </data>
+  <data name="WarningTextForTenantFailure" xml:space="preserve">
+    <value>User is not from the expected tenant</value>
+    <comment>Text to show if user not from a valid tenant</comment>
+  </data>
+  <data name="AstreixSymbol" xml:space="preserve">
+    <value>*</value>
+    <comment>Field name on task moduel</comment>
+  </data>
+  <data name="GenericErrorMessage" xml:space="preserve">
+    <value>Something went wrong and I can’t do that right now. Try again in a few minutes. </value>
+    <comment>Generic error message</comment>
+  </data>
+  <data name="TakeTourWelcomeMessage" xml:space="preserve">
+    <value>Here’s a tour of what I can do.</value>
+    <comment>Generic error message</comment>
+  </data>
+  <data name="UpdateScrumTimeStampText" xml:space="preserve">
+    <value>Last updated on {0}</value>
+    <comment>Text to show the updated scrum timestamp</comment>
+  </data>
+  <data name="WelcomeText" xml:space="preserve">
+    <value>Welcome!</value>
+    <comment>Welcome title text</comment>
+  </data>
+</root>
