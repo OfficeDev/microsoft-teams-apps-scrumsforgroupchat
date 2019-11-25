@@ -37,7 +37,7 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         private IScrumProvider scrumProvider;
         private TelemetryClient telemetryClient;
 
-        private AsyncRetryPolicy retryPolicy = Policy.Handle<HttpOperationException>()
+        private static AsyncRetryPolicy retryPolicy = Policy.Handle<HttpOperationException>()
                       .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromMilliseconds(1000), 5));
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
                 });
 
                 // https://github.com/Polly-Contrib/Polly.Contrib.WaitAndRetry/tree/DecorrelatedJitterV2Explorer
-                await this.retryPolicy.ExecuteAsync(async () =>
+                await retryPolicy.ExecuteAsync(async () =>
                 {
                     var response = await turnContext.SendActivityAsync(mentionActivity, cancellationToken).ConfigureAwait(false);
                     membersActivityIdMap[member.Id] = response.Id;
