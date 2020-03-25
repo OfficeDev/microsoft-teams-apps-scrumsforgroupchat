@@ -32,13 +32,13 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
     /// </summary>
     public class ScrumBot : TeamsActivityHandler
     {
-        private readonly string expectedTenantId;
-        private IConfiguration configuration;
-        private IScrumProvider scrumProvider;
-        private TelemetryClient telemetryClient;
-
         private static AsyncRetryPolicy retryPolicy = Policy.Handle<HttpOperationException>()
-                      .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromMilliseconds(1000), 5));
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromMilliseconds(1000), 5));
+
+        private readonly string expectedTenantId;
+        private readonly IConfiguration configuration;
+        private readonly IScrumProvider scrumProvider;
+        private readonly TelemetryClient telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScrumBot"/> class.
@@ -101,12 +101,7 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         {
             try
             {
-                var activityType = (Activity)turnContext.Activity;
-                string serviceUrl = turnContext.Activity.ServiceUrl;
-                Activity isTypingActivity = activityType.CreateReply();
-                isTypingActivity.Type = ActivityTypes.Typing;
-
-                await turnContext.SendActivityAsync(isTypingActivity, cancellationToken);
+                await this.SendTypingIndicatorAsync(turnContext);
 
                 var conversationType = turnContext.Activity.Conversation.ConversationType;
                 string conversationId = turnContext.Activity.Conversation.Id;
@@ -120,7 +115,6 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
                         switch (turnContext.Activity.Text.Trim().ToLower())
                         {
                             case Constants.Start:
-
                                 this.telemetryClient.TrackTrace($"scrum {conversationId} started by {turnContext.Activity.From.Id}");
 
                                 var scrum = await this.scrumProvider.GetScrumAsync(conversationId);
@@ -563,6 +557,27 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         private string GetUtcTimeInAdaptiveTextFormat()
         {
             return string.Format("{{{{TIME({0})}}}}", DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"));
+        }
+
+        /// <summary>
+        /// Send typing indicator to the user.
+        /// </summary>
+        /// <param name="turnContext">Context object containing information cached for a single turn of conversation with a user.</param>
+        /// <returns>A task that represents the work queued to execute.</returns>
+        private async Task SendTypingIndicatorAsync(ITurnContext turnContext)
+        {
+            try
+            {
+                var typingActivity = turnContext.Activity.CreateReply();
+                typingActivity.Type = ActivityTypes.Typing;
+                await turnContext.SendActivityAsync(typingActivity);
+            }
+            catch (Exception ex)
+            {
+                // Do not fail on errors sending the typing indicator
+                this.telemetryClient.TrackTrace($"Failed to send a typing indicator: {ex.Message}", SeverityLevel.Warning);
+                this.telemetryClient.TrackException(ex);
+            }
         }
     }
 }
