@@ -253,7 +253,7 @@ namespace Microsoft.Teams.Apps.Scrum.Cards
                                },
                                new AdaptiveTextBlock
                                {
-                                   Text = scrumDetails.Today,
+                                   Text = scrumDetails.Blockers,
                                    Wrap = true,
                                    Weight = AdaptiveTextWeight.Lighter,
                                },
