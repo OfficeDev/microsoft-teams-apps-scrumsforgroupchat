@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
   "version": "1.0.0.0",
   "id": "7966210f-b423-4f11-b0aa-fd9af2357fc0",
   "packageName": "com.microsoft.scrumstatus",
