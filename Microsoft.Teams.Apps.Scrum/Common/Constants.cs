@@ -32,6 +32,6 @@ namespace Microsoft.Teams.Apps.Scrum
         /// <summary>
         /// text that gives the Max Total Member Count.
         /// </summary>
-        public const int MaxAllowedMembers = 20;
+        public const int MaxAllowedMembers = 100;
     }
 }
