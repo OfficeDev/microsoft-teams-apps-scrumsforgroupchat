@@ -50,11 +50,6 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         private readonly IScrumProvider scrumProvider;
         private readonly TelemetryClient telemetryClient;
 
-        ///// <summary>
-        ///// Sends logs to the Application Insights service.
-        ///// </summary>
-        // private readonly ILogger logger;
-
         /// <summary>
         /// Cache for storing authorization result.
         /// </summary>
@@ -467,9 +462,12 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
             string continuationToken = null;
             do
             {
-                var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, pageSize: 500, continuationToken, cancellationToken);
-                continuationToken = currentPage.ContinuationToken;
-                members.AddRange(currentPage.Members);
+                await memberRetryPolicy.ExecuteAsync(async () =>
+                {
+                    var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, pageSize: 500, continuationToken, cancellationToken);
+                    continuationToken = currentPage.ContinuationToken;
+                    members.AddRange(currentPage.Members);
+                });
             }
             while (continuationToken != null);
             return members;
