@@ -68,6 +68,8 @@ namespace Microsoft.Teams.Apps.Scrum
             services.AddScoped<IBot, ScrumBot>();
 
             services.AddSingleton(new TelemetryClient(new TelemetryConfiguration(this.Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"])));
+
+            services.AddMemoryCache();
         }
 
         /// <summary>

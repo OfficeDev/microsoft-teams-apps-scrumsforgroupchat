@@ -7,6 +7,7 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ApplicationInsights;
@@ -15,6 +16,7 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
     using Microsoft.Bot.Builder.Teams;
     using Microsoft.Bot.Schema;
     using Microsoft.Bot.Schema.Teams;
+    using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Rest;
     using Microsoft.Teams.Apps.Scrum.Cards;
@@ -32,7 +34,15 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
     /// </summary>
     public class ScrumBot : TeamsActivityHandler
     {
+        /// <summary>
+        /// Sets the team members cache key.
+        /// </summary>
+        private const string TeamMembersCacheKey = "teamMembersCacheKey";
+
         private static AsyncRetryPolicy retryPolicy = Policy.Handle<HttpOperationException>()
+            .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromMilliseconds(1000), 5));
+
+        private static AsyncRetryPolicy memberRetryPolicy = Policy.Handle<HttpOperationException>(ex => ex.Response.StatusCode == HttpStatusCode.TooManyRequests)
             .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromMilliseconds(1000), 5));
 
         private readonly string expectedTenantId;
@@ -41,18 +51,26 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         private readonly TelemetryClient telemetryClient;
 
         /// <summary>
+        /// Cache for storing authorization result.
+        /// </summary>
+        private readonly IMemoryCache memoryCache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ScrumBot"/> class.
         /// </summary>
         /// <param name="conversationState">Conversation State.</param>
         /// <param name="configuration">Configuration.</param>
         /// <param name="scrumProvider">scrumProvider.</param>
         /// <param name="telemetryClient">Telemetry.</param>
-        public ScrumBot(IConfiguration configuration, IScrumProvider scrumProvider, TelemetryClient telemetryClient)
+        /// <param name="logger">Instance to send logs to the Application Insights service.</param>
+        /// <param name="memoryCache">MemoryCache instance for caching authorization result.</param>
+        public ScrumBot(IConfiguration configuration, IScrumProvider scrumProvider, TelemetryClient telemetryClient, IMemoryCache memoryCache)
         {
             this.scrumProvider = scrumProvider;
             this.telemetryClient = telemetryClient;
             this.configuration = configuration;
             this.expectedTenantId = configuration["TenantId"];
+            this.memoryCache = memoryCache;
         }
 
         /// <inheritdoc/>
@@ -427,9 +445,32 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         /// <returns>true if members are more than allowed limit.</returns>
         private async Task<bool> IsMemberCountGreaterThanAllowed(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
-            this.telemetryClient.TrackTrace($"Total Members in group chat is :{members.Count()}");
+            bool isCacheEntryExists = this.memoryCache.TryGetValue(TeamMembersCacheKey, out List<TeamsChannelAccount> members);
+            if (!isCacheEntryExists)
+            {
+                members = await this.GetTeamMembersAsync(turnContext, cancellationToken);
+                this.memoryCache.Set(TeamMembersCacheKey, members, TimeSpan.FromDays(3));
+                this.telemetryClient.TrackTrace($"Total Members in group chat is :{members.Count()}");
+            }
+
             return members.Count() > Constants.MaxAllowedMembers;
+        }
+
+        private async Task<List<TeamsChannelAccount>> GetTeamMembersAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            List<TeamsChannelAccount> members = new List<TeamsChannelAccount>();
+            string continuationToken = null;
+            do
+            {
+                await memberRetryPolicy.ExecuteAsync(async () =>
+                {
+                    var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, pageSize: 500, continuationToken, cancellationToken);
+                    continuationToken = currentPage.ContinuationToken;
+                    members.AddRange(currentPage.Members);
+                });
+            }
+            while (continuationToken != null);
+            return members;
         }
 
         /// <summary>
@@ -477,18 +518,24 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
         private async Task<Dictionary<string, string>> GetActivityIdOfMembersInScrum(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var membersActivityIdMap = new Dictionary<string, string>();
-            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
+            bool isCacheEntryExists = this.memoryCache.TryGetValue(TeamMembersCacheKey, out List<TeamsChannelAccount> members);
+            if (!isCacheEntryExists)
+            {
+                members = await this.GetTeamMembersAsync(turnContext, cancellationToken);
+                this.memoryCache.Set(TeamMembersCacheKey, members, TimeSpan.FromDays(1));
+                this.telemetryClient.TrackTrace($"Total Members in group chat is :{members.Count()}");
+            }
 
             foreach (var member in members)
             {
                 var mentionActivity = MessageFactory.Attachment(ScrumStartCards.GetNameCard(member.Name));
                 mentionActivity.Entities = new List<Entity>();
                 var mentionedEntity = member;
-                string mentionEntityText = string.Format("<at>{0}</at>", mentionedEntity.Name);
+                string mentionEntityText = string.Format("{0}", mentionedEntity.Name);
 
                 mentionActivity.Entities.Add(new Mention
                 {
-                    Text = mentionEntityText,
+                    Text = WebUtility.HtmlEncode(mentionEntityText),
                     Mentioned = mentionedEntity,
                 });
 
