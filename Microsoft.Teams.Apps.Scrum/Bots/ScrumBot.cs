@@ -531,11 +531,11 @@ namespace Microsoft.Teams.Apps.Scrum.Bots
                 var mentionActivity = MessageFactory.Attachment(ScrumStartCards.GetNameCard(member.Name));
                 mentionActivity.Entities = new List<Entity>();
                 var mentionedEntity = member;
-                string mentionEntityText = string.Format("<at>{0}</at>", mentionedEntity.Name);
+                string mentionEntityText = string.Format("{0}", mentionedEntity.Name);
 
                 mentionActivity.Entities.Add(new Mention
                 {
-                    Text = mentionEntityText,
+                    Text = WebUtility.HtmlEncode(mentionEntityText),
                     Mentioned = mentionedEntity,
                 });
 
